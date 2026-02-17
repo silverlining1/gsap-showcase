@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GSAP Plugin Showcase</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="logo">GSAP Showcase</div>
+      <nav>
+        <button class="nav-btn active" data-target="core">Core</button>
+        <button class="nav-btn" data-target="scroll">ScrollTrigger</button>
+        <button class="nav-btn" data-target="drag">Draggable</button>
+        <button class="nav-btn" data-target="text">Text Effects</button>
+        <button class="nav-btn" data-target="morph">MorphSVG</button>
+        <button class="nav-btn" data-target="flip">Flip</button>
+        <button class="nav-btn" data-target="observer">Observer</button>
+        <button class="nav-btn" data-target="draw">DrawSVG</button>
+        <button class="nav-btn" data-target="path">MotionPath</button>
+        <button class="nav-btn" data-target="split">SplitText</button>
+        <button class="nav-btn" data-target="smooth">ScrollSmoother</button>
+        <button class="nav-btn" data-target="physics">Physics2D</button>
+        <button class="nav-btn" data-target="ease">CustomEase</button>
+        <button class="nav-btn" data-target="to">ScrollTo</button>
+      </nav>
+    </header>
+
+    <main id="demo-container">
+      <!-- Dynamic Content injected here -->
+      <div class="intro">
+        <h1>Welcome to the GreenSock Showcase</h1>
+        <p>Explore the power of GSAP plugins using the buttons above.</p>
+      </div>
+    </main>
+
+    <footer>
+      Built with Vite + Vanilla JS + GSAP
+    </footer>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Matrix Utils Demo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            width: 300px;
+            height: 300px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            position: relative;
+            margin: 50px;
+            transform: rotate(15deg) scale(0.8);
+        }
+        .nested {
+            width: 100px;
+            height: 100px;
+            background-color: #ff9999;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            transform: rotate(-10deg) translate(20px, 10px);
+        }
+        .marker {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .marker-corner {
+            width: 6px;
+            height: 6px;
+            background-color: blue;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 101;
+        }
+        #output {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>GSAP Matrix Utils Demo</h1>
+    <p>The red dot should align with the top-left corner of the pink box, even with nested transforms.</p>
+
+    <div class="container" id="container">
+        <div class="nested" id="nested">
+            Nested Box
+        </div>
+    </div>
+
+    <!-- Marker that will be positioned using the matrix -->
+    <div class="marker" id="marker"></div>
+
+    <div id="output"></div>
+
+    <script type="module">
+        import { getGlobalMatrix } from './matrix.js';
+
+        const nested = document.getElementById('nested');
+        const marker = document.getElementById('marker');
+        const output = document.getElementById('output');
+
+        function updateMarker() {
+            // Get the global matrix of the nested element
+            const matrix = getGlobalMatrix(nested);
+
+            // The 'e' and 'f' properties of the matrix represent the global translation (x, y)
+            // This is the top-left corner of the element in global coordinates
+            const globalX = matrix.e;
+            const globalY = matrix.f;
+
+            // Apply the position to the marker
+            marker.style.transform = `translate(${globalX}px, ${globalY}px)`;
+            
+            output.innerHTML = `
+                <strong>Matrix values:</strong><br>
+                a: ${matrix.a.toFixed(3)}<br>
+                b: ${matrix.b.toFixed(3)}<br>
+                c: ${matrix.c.toFixed(3)}<br>
+                d: ${matrix.d.toFixed(3)}<br>
+                e (x): ${matrix.e.toFixed(3)}<br>
+                f (y): ${matrix.f.toFixed(3)}
+            `;
+        }
+
+        // Update on load
+        updateMarker();
+
+        // Update on resize or just periodically to catch layout changes
+        window.addEventListener('resize', updateMarker);
+        
+        // Let's animate the container to see it follow in real-time
+        let angle = 15;
+        function animate() {
+            angle += 0.5;
+            document.getElementById('container').style.transform = `rotate(${angle}deg) scale(0.8) translate(50px, 0)`;
+            updateMarker();
+            requestAnimationFrame(animate);
+        }
+        
+        // Start animation after a brief pause
+        setTimeout(animate, 1000);
+
+    </script>
+</body>
+</html>
