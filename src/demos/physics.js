@@ -27,8 +27,8 @@ export function initPhysicsDemo(container) {
             gsap.to(dot, {
                 duration: 2.5,
                 physics2D: {
-                    velocity: "random(200, 600)",
-                    angle: "random(250, 290)",
+                    velocity: gsap.utils.random(200, 600),
+                    angle: gsap.utils.random(250, 290),
                     gravity: 500
                 },
                 opacity: 0,
