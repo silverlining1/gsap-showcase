@@ -23,7 +23,27 @@ export function initPhysicsDemo(container) {
             border-radius: 50%; position: absolute; bottom: 0; left: 50%;
         `;
             box.appendChild(dot);
+            console.log("Particle created", dot); // DEBUG
 
+            // Fallback test: Simple translation to verify visibility
+            // gsap.to(dot, { y: -200, duration: 1, onComplete: () => dot.remove() });
+
+            // FALLBACK DEBUGGING:
+            // If this works, the issue is Physics2D. If this doesn't, it's CSS/Rendering.
+            console.log("Animating particle", i);
+            gsap.to(dot, {
+                x: "random(-100, 100)",
+                y: -500,
+                duration: 2,
+                ease: "power1.out",
+                background: "white", // Force white to be visible
+                onStart: () => console.log("Standard tween start"),
+                onComplete: () => {
+                    if (dot.parentNode) dot.parentNode.removeChild(dot);
+                }
+            });
+
+            /* 
             gsap.to(dot, {
                 duration: 2.5,
                 physics2D: {
@@ -31,11 +51,14 @@ export function initPhysicsDemo(container) {
                     angle: gsap.utils.random(250, 290),
                     gravity: 500
                 },
-                opacity: 0,
+                // opacity: 0, 
+                onStart: () => console.log("Tween started"),
+                onUpdate: () => console.log("Tween updating"), 
                 onComplete: () => {
                     if (dot.parentNode) dot.parentNode.removeChild(dot);
                 }
             });
+            */
         }
     }
 
