@@ -19,7 +19,7 @@ export function initPhysicsDemo(container) {
         for (let i = 0; i < 30; i++) {
             const dot = document.createElement('div');
             dot.style.cssText = `
-            width: 10px; height: 10px; background: ${gsap.utils.random(["#ff0055", "#00ccff", "#88ce02"])};
+            width: 10px; height: 10px; background: ${gsap.utils.random(["#00FFFF", "#FF00FF", "#00FF00", "#FFFF00"])};
             border-radius: 50%; position: absolute; bottom: 0; left: 50%;
         `;
             box.appendChild(dot);
