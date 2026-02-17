@@ -1,8 +1,9 @@
 import { gsap } from '../lib/gsap/index.js';
 import { CustomEase } from '../lib/gsap/CustomEase.js';
 import { CustomWiggle } from '../lib/gsap/CustomWiggle.js';
+import { CustomBounce } from '../lib/gsap/CustomBounce.js';
 
-gsap.registerPlugin(CustomEase, CustomWiggle);
+gsap.registerPlugin(CustomEase, CustomWiggle, CustomBounce);
 
 export function initEaseDemo(container) {
     container.innerHTML = `
@@ -26,16 +27,23 @@ export function initEaseDemo(container) {
 
     document.getElementById('do-bounce').addEventListener('click', () => {
         // Create a custom squash/stretch bounce
+        // strength=0.7, squash=0.6, squashID="squash"
+        CustomBounce.create("myBounce", { strength: 0.7, squash: 3, squashID: "mySquash" });
+
         gsap.to("#bounce-box", {
             y: -150,
-            duration: 0.5,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1
+            duration: 1,
+            ease: "myBounce",
+            delay: 0.2
         });
-        // This is simple bounce, let's make a custom ease curve
-        // Drawing a curve that goes way past 1 and settles back
-        CustomEase.create("hop", "M0,0 C0,0 0.2,1 0.5,1 0.8,1 1,1 1,1"); // Simplified for demo without visualizer
+
+        gsap.to("#bounce-box", {
+            scaleY: 0.5,
+            scaleX: 1.3,
+            duration: 1,
+            ease: "mySquash",
+            delay: 0.2
+        });
     });
 
     return () => {

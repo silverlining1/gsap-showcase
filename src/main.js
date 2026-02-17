@@ -17,9 +17,14 @@ import { initSmootherDemo } from './demos/smoother.js';
 import { initPhysicsDemo } from './demos/physics.js';
 import { initEaseDemo } from './demos/ease.js';
 import { initToDemo } from './demos/scrollto.js';
+import { initPropsDemo } from './demos/physicsprops.js';
+import { GSDevTools } from './lib/gsap/GSDevTools.js';
+
+gsap.registerPlugin(GSDevTools);
 
 // State
 let currentCleaner = null;
+let devToolsInstance = null; // Keep track of GSDevTools
 
 const demos = {
   core: initCoreDemo,
@@ -34,6 +39,7 @@ const demos = {
   split: initSplitDemo,
   smooth: initSmootherDemo,
   physics: initPhysicsDemo,
+  props: initPropsDemo,
   ease: initEaseDemo,
   to: initToDemo
 };
@@ -62,11 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = btn.dataset.target;
       if (demos[target]) {
         currentCleaner = demos[target](container);
+
+        // Refresh GSDevTools to pick up new animations
+        // GSDevTools automatically finds the global timeline.
       }
     });
   });
 
+  // Create GSDevTools once at startup
+  // Note: GSDevTools attaches to the document body. 
+  // It records everything on the global timeline.
+
+  // Create GSDevTools instance globally once
+  if (!devToolsInstance) {
+    devToolsInstance = GSDevTools.create();
+    // GSDevTools.create({ globalSync: false, minimal: true }); // Options if needed
+  }
+
   // Load Core demo by default
-  // demos.core(container); // Or wait for user
   document.querySelector('[data-target="core"]').click();
 });
